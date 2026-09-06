@@ -4,3 +4,6 @@ langchain-text-splitters==0.3.8   # chunking.RecursiveCharacterTextSplitter
 pymupdf==1.26.7                   # extraction: `import fitz`
 fastembed==0.8.0                  # embeddings, EMBEDDING_PROVIDER=local (ONNX, no API key)
 voyageai==0.3.6                   # embeddings, EMBEDDING_PROVIDER=voyage
+
+boto3
+apache-airflow-providers-amazon
