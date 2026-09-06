@@ -68,6 +68,17 @@ x-airflow-common:
 
     AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-us-east-1}
 
+    # Optional: only needed if you're not mounting ~/.aws below (e.g. CI,
+    # or temporary SSO/STS credentials). Leave unset to use the mounted
+    # credentials file / profile instead.
+    AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+
+    AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+
+    AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN:-}
+
+    AWS_PROFILE: ${AWS_PROFILE:-}
+
 
     # Embeddings
     
@@ -80,7 +91,7 @@ x-airflow-common:
   volumes:
 
     # DAGs
-    - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
+    - ${AIRFLOW_PROJ_DIR:-.}/dag:/opt/airflow/dags
 
     # Reusable RAG Python package
     - ${AIRFLOW_PROJ_DIR:-.}/include:/opt/airflow/include
@@ -93,6 +104,11 @@ x-airflow-common:
 
     # Airflow plugins
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+
+    # Local AWS credentials/config (read-only), so boto3's default
+    # credential chain resolves inside the container. Alternative to the
+    # AWS_ACCESS_KEY_ID/SECRET/SESSION_TOKEN env vars above.
+    - ${HOME}/.aws:/home/airflow/.aws:ro
 
 
   user: "${AIRFLOW_UID:-50000}:0"

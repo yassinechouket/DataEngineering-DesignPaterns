@@ -25,7 +25,7 @@ from datetime import datetime
 
 from airflow.decorators import dag, task
 
-from rag import (
+from include.rag import (
     chunking,
     embeddings,
     extraction,
